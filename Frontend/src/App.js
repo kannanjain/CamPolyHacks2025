@@ -62,7 +62,8 @@ useEffect(() => {
         }));
         if(visibility){
           users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
-        console.log(users.data)
+          console.log("other users")
+          console.log(users.data)
         setOtherUsers(users.data)
         } else{
           return

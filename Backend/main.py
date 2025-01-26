@@ -42,6 +42,10 @@ def root(user_id: str):
     results = mycol.find(filter_query)
     results_list = []
     for doc in results:
+        if doc["name"]=="ada":
+            print("smth")
+            print(doc["_id"])
+            continue
         if doc["_id"]!=user_id:
             results_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location'], 'lta':doc['lta']})
     return results_list
