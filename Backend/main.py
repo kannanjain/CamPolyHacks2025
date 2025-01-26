@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field, confloat
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
+from bson.objectid import ObjectId
 import uvicorn
 import pymongo
 
@@ -47,9 +48,12 @@ def root(user_id: str):
 
 @app.patch("/user/update_user/{user_id}")
 def update_user(user_id: str, user: User = None):
-    myquery = { "userId": user_id }
+    print(user_id)
+    myquery = { "_id": ObjectId(user_id)}
+    print(mycol.find_one(myquery))
     newvalues={"$set" :{"location": user.location.to_dict(), "visibility": user.visibility, "lta": user.lta}}
     updated=mycol.update_one(myquery, newvalues)
+    print(updated)
     return user_id
 
 
