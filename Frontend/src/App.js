@@ -155,6 +155,7 @@ const handleSearch = async () => {
           padding: "10px",
           borderRadius: "8px",
           boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          height: "50px"
         }}
       >
         <input
@@ -166,10 +167,12 @@ const handleSearch = async () => {
           placeholder="Search interest..."
           style={{
             width: "200px",
+            height: "40px",
             padding: "5px",
             border: "1px solid #ccc",
             borderRadius: "4px",
             marginRight: "5px",
+            fontSize: "20px"
           }}
         />
         <button
@@ -177,10 +180,12 @@ const handleSearch = async () => {
           style={{
             padding: "5px 10px",
             backgroundColor: "blue",
+            height: "40px",
             color: "white",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            fontSize: "20px"
           }}
         >
           Search
