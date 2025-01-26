@@ -53,6 +53,17 @@ def update_user(user_id: str, user: User = None):
     updated=mycol.update_one(myquery, newvalues)
     return user_id
 
+
+@app.get("/user/interest/{interest}")
+def get_search(interest: str, uid: str):
+    query = {"interests": interest}
+    result_list = list(mycol.find(query))
+    res_list=[]
+    for doc in result_list:
+        if doc["_id"]!=uid:
+            res_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location'], 'lta':doc['lta']})
+    return res_list
+
 if __name__ == "__main__":
    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
 
