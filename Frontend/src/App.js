@@ -23,7 +23,7 @@ const [selfInfo,setSelfInfo]=useState(false);
 const [username, setUserName]=useState("Ada")
 const [interests,setInterests]=useState(["coding","being a trendsetter"])
 const [visibility, setVisibility]=useState(true)
-const [lta,setLta]=useState("How programming was actually a women dominated field and then men joined when it became lucrative.")
+const [lta,setLta]=useState("")
 
 const [changeLTA, setChangeLTA] = useState(false);
 const [inputValue, setInputValue] = useState(lta);
