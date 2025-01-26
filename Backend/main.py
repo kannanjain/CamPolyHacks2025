@@ -6,8 +6,7 @@ import uvicorn
 import pymongo
 
 app = FastAPI()
-myclient = pymongo.MongoClient("mongodb+srv://rachana:dummypassword@user.rehyj.mongodb.net/?retryWrites=true&w=majority&appName=user",server_api=pymongo.server_api.ServerApi(
- version="1"))
+myclient = pymongo.MongoClient("mongodb+srv://rachana:dummypassword@user.rehyj.mongodb.net/?retryWrites=true&w=majority&appName=user")
 mydb = myclient["user_database"]
 mycol = mydb["user"]
 
