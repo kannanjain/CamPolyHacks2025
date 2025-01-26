@@ -1,4 +1,6 @@
-// import logo from './logo.svg';
+import pin from './pin.png';
+import 'mapbox-gl/dist/mapbox-gl.css'; 
+
 // import './App.css';
 // import React, {useState} from 'react'
 
@@ -42,24 +44,27 @@ export default function App() {
   const [viewport, setViewport] = useState({
     latitude: 35.300475,
     longitude: -120.662046,
-    // height: "300vh",
-    // center: [-0.1404545, 51.5220163],
-    zoom: 10
-  });
+zoom: 15});
 const [userLocation, setUserLocation] = useState(null);
 useEffect(() => {
   // Check if geolocation is available
   if (navigator.geolocation) {
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log("position")
+        console.log(position)
         const { latitude, longitude } = position.coords;
         setUserLocation({ latitude, longitude });
-        setViewport({
-          ...viewport,
+        setViewport((prevViewport) => ({
+          ...prevViewport,
           latitude,
           longitude,
-          zoom: 12, // Zoom level to focus on the user's location
-        });
+          zoom: 9, // Zoom level to focus on the user's location
+        }));
+        console.log(latitude)
+        console.log(longitude)
+        console.log("Viewport Center:", viewport.latitude, viewport.longitude);
       },
       (error) => {
         console.error('Error getting user location', error);
@@ -69,35 +74,33 @@ useEffect(() => {
     console.error('Geolocation is not supported by this browser.');
   }
 }, []);
-  
-  const [selectedPark, setSelectedPark] = useState(null);
 
-  
 
   return (
-    <div className="body">
-      <div className="map">
+    
+      <div style={{ width: "100vw", height: "100vh" }}>
     <ReactMapGL
     {...viewport}
     mapboxAccessToken={token}
     width="100vw"
     height="100vh"
-    mapStyle={"mapbox://styles/sumedha-kun/cm6cws1s0004u01sk09oy2kv2"}
-    onMove={(evt) => setViewport(evt.viewState)} // Handles map movements
+    mapStyle={"mapbox://styles/mapbox/streets-v11"}
+    onMove={(evt) => {
+      setViewport(evt.viewState)
+      console.log(viewport)
+    
+    }} // Handles map movements
           interactiveLayerIds={[''] }//disable
     >
-      {userLocation && (
-            <Marker latitude={userLocation.latitude} longitude={userLocation.longitude}>
-              <div>
-                {/* You can replace this with a custom marker or icon */}
-                X
-              </div>
-            </Marker>
-          )}
-  </ReactMapGL>
+      {userLocation && <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
+            <img src={pin} />
+          </Marker>}
+      </ReactMapGL>
 
   <></>
   </div>
-    </div>
+    
   );
 }
+
+//"mapbox://styles/sumedha-kun/cm6cws1s0004u01sk09oy2kv2"
