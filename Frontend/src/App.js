@@ -22,10 +22,21 @@ const [selfInfo,setSelfInfo]=useState(false);
 
 const [username, setUserName]=useState("Ada")
 const [interests,setInterests]=useState(["coding","being a trendsetter"])
+const [visibility, setVisibility]=useState(true)
 const [lta,setLta]=useState("How programming was actually a women dominated field and then men joined when it became lucrative.")
 
 const [changeLTA, setChangeLTA] = useState(false);
 const [inputValue, setInputValue] = useState(lta);
+
+const handleChange = () => {
+  setVisibility(!visibility);
+  if(!visibility){
+    window.location.reload();
+  } else{
+    setOtherUsers([])
+  }
+  
+};
 var users = [];
 useEffect(() => {
   console.log("Selected user:", selectedUser);
@@ -140,6 +151,20 @@ useEffect(() => {
             <FontAwesomeIcon icon={faPen} onClick={(e) => {
               setChangeLTA(true)
             }} />
+            <p><b>Visibility: </b>{visibility ? "Visible" : "Hidden"}</p>
+            <button
+              onClick={handleChange}
+              style={{
+                padding: "5px 10px",
+                backgroundColor: visibility ? "green" : "red",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            ></button>
+
+            
 
             
           </div>
@@ -161,7 +186,10 @@ useEffect(() => {
           <input
               type="text"
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                setInputValue(e.target.value)
+                setLta(e.target.value)
+              }}
               placeholder="Type here..."
               style={{ width: "100%", padding: "5px" }}
             />
