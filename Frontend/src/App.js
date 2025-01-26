@@ -170,18 +170,23 @@ useEffect(() => {
           </div>
         </Popup>)}
 
-        {changeLTA && (
-        <Popup
+        {changeLTA
+        && (
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              background: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+              zIndex: 1000,
+            }}
+          >
           
-          longitude={viewport.longitude}
-          latitude={viewport.latitude}
-          anchor='top'
-          closeOnClick={true}
-          onClose={() => setChangeLTA(false)} // Close popup on close button
-          offset={25}
-        >
-          <div>
-          <div>
+          <div >
             <h1>Change your "Let's Talk About...."</h1>
           <input
               type="text"
@@ -192,8 +197,9 @@ useEffect(() => {
               }}
               
               placeholder="Type here..."
-              style={{ width: "100%", padding: "5px" }}
+              style={{ width: "95%", padding: "8px", height: "40px", margin: "10px" }}
             />
+            <div style={{ display: "flex", justifyContent: "space-between" }}></div>
             <button
               onClick={()=>{
                 setChangeLTA(false)
@@ -209,11 +215,9 @@ useEffect(() => {
             >
               Change
             </button>
+            </div>
           </div>
-
-            
-          </div>
-        </Popup>)}
+          )}
 
 
 
