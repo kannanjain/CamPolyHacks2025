@@ -46,25 +46,58 @@ export default function App() {
     // center: [-0.1404545, 51.5220163],
     zoom: 10
   });
+const [userLocation, setUserLocation] = useState(null);
+useEffect(() => {
+  // Check if geolocation is available
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ latitude, longitude });
+        setViewport({
+          ...viewport,
+          latitude,
+          longitude,
+          zoom: 12, // Zoom level to focus on the user's location
+        });
+      },
+      (error) => {
+        console.error('Error getting user location', error);
+      }
+    );
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+}, []);
+  
   const [selectedPark, setSelectedPark] = useState(null);
 
   
 
-  return (
-    <div class="body">
-      <div class="map">
-      <ReactMapGL
-      {...viewport}
-      mapboxAccessToken={token}
-      width="100vw"
-      height="100vh"
-      mapStyle={"mapbox://styles/sumedha-kun/cm6cws1s0004u01sk09oy2kv2"}
-      >
-      </ReactMapGL>
+  return (
+    <div className="body">
+      <div className="map">
+    <ReactMapGL
+    {...viewport}
+    mapboxAccessToken={token}
+    width="100vw"
+    height="100vh"
+    mapStyle={"mapbox://styles/sumedha-kun/cm6cws1s0004u01sk09oy2kv2"}
+    onMove={(evt) => setViewport(evt.viewState)} // Handles map movements
+          interactiveLayerIds={[''] }//disable
+    >
+      {userLocation && (
+            <Marker latitude={userLocation.latitude} longitude={userLocation.longitude}>
+              <div>
+                {/* You can replace this with a custom marker or icon */}
+                X
+              </div>
+            </Marker>
+          )}
+  </ReactMapGL>
 
-      <></>
-    </div>
+  <></>
+  </div>
     </div>
-    
-  );
+  );
 }
