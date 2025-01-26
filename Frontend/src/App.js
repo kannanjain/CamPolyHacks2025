@@ -31,10 +31,12 @@ const [searchTerm, setSearchTerm] = useState(""); // Search input
 const [searchResults, setSearchResults] = useState([]); // Geocoding results
 
 
-const handleChange = () => {
+const handleChange = async () => {
   setVisibility(!visibility);
   if(!visibility){
-    window.location.reload();
+    const users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
+    console.log(users.data)
+    setOtherUsers(users.data)
   } else{
     setOtherUsers([])
   }
@@ -58,9 +60,14 @@ useEffect(() => {
           longitude,
           zoom: 15, // Zoom level to focus on the user's location
         }));
-        users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
+        if(visibility){
+          users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
         console.log(users.data)
         setOtherUsers(users.data)
+        } else{
+          return
+        }
+        
 
         const updatedUser=await axios.patch("http://127.0.0.1:8000/user/update_user/"+uid, {"userId":uid, "name": "Ada", "email": "lovelace@gmail.com", "interests":["coding","being a trendsetter"], "visibility":true, "lta":lta,"location": {"latitude":latitude,"longitude":longitude}})
         console.log(updatedUser)
