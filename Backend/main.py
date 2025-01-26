@@ -58,6 +58,7 @@ def update_user(user_id: str, user: User = None):
     newvalues={"$set" :{"location": user.location.to_dict(), "visibility": user.visibility, "lta": user.lta}}
     updated=mycol.update_one(myquery, newvalues)
     print(updated)
+    print(mycol.find_one(myquery))
     return user_id
 
 

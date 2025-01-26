@@ -279,8 +279,9 @@ const handleSearch = async () => {
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}></div>
             <button
-              onClick={()=>{
+              onClick={async ()=>{
                 setChangeLTA(false)
+                await axios.patch("http://127.0.0.1:8000/user/update_user/"+uid, {"userId":uid, "name": "ada", "email": "lovelace@gmail.com", "interests":["coding","being a trendsetter"], "visibility":true, "lta":lta,"location": {"latitude":userLocation.latitude,"longitude":userLocation.longitude}})
               }}
               style={{
                 padding: "5px 10px",
