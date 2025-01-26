@@ -190,9 +190,25 @@ useEffect(() => {
                 setInputValue(e.target.value)
                 setLta(e.target.value)
               }}
+              
               placeholder="Type here..."
               style={{ width: "100%", padding: "5px" }}
             />
+            <button
+              onClick={()=>{
+                setChangeLTA(false)
+              }}
+              style={{
+                padding: "5px 10px",
+                backgroundColor: "blue",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Change
+            </button>
           </div>
 
             
