@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 
 
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
-
+const uid="6795f5d467e06ca445743c32"
 const token="pk.eyJ1Ijoic3VtZWRoYS1rdW4iLCJhIjoiY202Y3YzZDl5MG1qYjJsb29oZG05ZzNrdyJ9.znQxXNQe-ze2jFZbgdYcvw"
 
 export default function App() {
@@ -36,9 +36,12 @@ useEffect(() => {
           longitude,
           zoom: 15, // Zoom level to focus on the user's location
         }));
-        users= await axios.get("http://127.0.0.1:8000/user/get_users")
+        users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
         console.log(users.data)
         setOtherUsers(users.data)
+
+        const updatedUser=await axios.patch("http://127.0.0.1:8000/user/update_user/"+uid, {"userId":uid, "name": "Ada", "email": "lovelace@gmail.com", "interests":["coding","being a trendsetter"], "visibility":true, "lta":"How programming was actually a women dominated field and then men joined when it became lucrative.","location": {"latitude":latitude,"longitude":longitude}})
+        console.log(updatedUser)
       },
       (error) => {
         console.error('Error getting user location', error);
@@ -102,7 +105,7 @@ useEffect(() => {
             <p>{selectedUser.interests.join(", ")}</p>
             <h3>I wanna talk about...</h3>
             <p>{selectedUser.lta}</p>
-           
+
             
           </div>
         </Popup>)}

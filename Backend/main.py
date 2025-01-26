@@ -22,34 +22,36 @@ app.add_middleware(
 )
 
 class GeolocationCoordinates(BaseModel):
-    latitude: confloat(ge=-90, le=90) = Field(..., description="Latitude in decimal degrees, between -90 and 90") # type: ignore
-    longitude: confloat(ge=-180, le=180) = Field(..., description="Longitude in decimal degrees, between -180 and 180") # type: ignore
-    altitude: float = Field(None, description="Optional altitude in meters above sea level")
+    latitude: float
+    longitude: float
+    def to_dict(self):
+        return {"latitude": self.latitude, "longitude": self.longitude}
 
 class User(BaseModel):
     userId: Optional[str] = None
     name: Optional[str] = None
     email: Optional[str] = None
-    interests: list=None
+    interests: Optional[list[str]]=None
     visibility: bool=False
     lta: Optional[str]=None
     location: GeolocationCoordinates
 
-@app.get("/user/get_users")
-def root():
+@app.get("/user/get_users/{user_id}")
+def root(user_id: str):
     filter_query = {"visibility": True}
     results = mycol.find(filter_query)
     results_list = []
     for doc in results:
-        results_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location'], 'lta':doc['lta']})
+        if doc["_id"]!=user_id:
+            results_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location'], 'lta':doc['lta']})
     return results_list
 
-# @app.patch("/user/update_user/{user_id}", response_model=User)
-# async def update_user(user_id: str, user: User = None):
-#     myquery = { "userId": user_id }
-#     newvalues={"$set" :{"location": user.location, "visibility": user.visibility, "lta": user.lta}}
-#     updated=mycol.update_one(myquery, newvalues)
-#     return updated
+@app.patch("/user/update_user/{user_id}")
+def update_user(user_id: str, user: User = None):
+    myquery = { "userId": user_id }
+    newvalues={"$set" :{"location": user.location.to_dict(), "visibility": user.visibility, "lta": user.lta}}
+    updated=mycol.update_one(myquery, newvalues)
+    return user_id
 
 if __name__ == "__main__":
    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
