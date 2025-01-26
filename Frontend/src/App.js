@@ -59,7 +59,7 @@ useEffect(() => {
         console.log(users.data)
         setOtherUsers(users.data)
 
-        const updatedUser=await axios.patch("http://127.0.0.1:8000/user/update_user/"+uid, {"userId":uid, "name": "Ada", "email": "lovelace@gmail.com", "interests":["coding","being a trendsetter"], "visibility":true, "lta":"How programming was actually a women dominated field and then men joined when it became lucrative.","location": {"latitude":latitude,"longitude":longitude}})
+        const updatedUser=await axios.patch("http://127.0.0.1:8000/user/update_user/"+uid, {"userId":uid, "name": "Ada", "email": "lovelace@gmail.com", "interests":["coding","being a trendsetter"], "visibility":true, "lta":lta,"location": {"latitude":latitude,"longitude":longitude}})
         console.log(updatedUser)
       },
       (error) => {
@@ -188,7 +188,7 @@ useEffect(() => {
           
           <div >
             <h1>Change your "Let's Talk About...."</h1>
-          <input
+          <textarea
               type="text"
               value={inputValue}
               onChange={(e) => {
@@ -197,7 +197,7 @@ useEffect(() => {
               }}
               
               placeholder="Type here..."
-              style={{ width: "95%", padding: "8px", height: "40px", margin: "10px" }}
+              style={{ width: "95%", padding: "8px", height: "100px", margin: "10px" }}
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}></div>
             <button
