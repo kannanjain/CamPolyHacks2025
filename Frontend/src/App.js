@@ -1,4 +1,5 @@
 import pin from './pin.png';
+import bluePin from './bluepin.png';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
 import axios from 'axios'
 
@@ -66,7 +67,7 @@ useEffect(() => {
           
     >
       {userLocation && <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
-            <img src={pin} />
+            <img src={bluePin} />
           </Marker>}
       <>
       <ul>
