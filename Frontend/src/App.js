@@ -2,11 +2,11 @@ import pin from './pin.png';
 import bluePin from './bluepin.png';
 import 'mapbox-gl/dist/mapbox-gl.css'; 
 import axios from 'axios'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from "react";
-
-
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
+console.log(ReactMapGL)
 const uid="6795f5d467e06ca445743c32"
 const token="pk.eyJ1Ijoic3VtZWRoYS1rdW4iLCJhIjoiY202Y3YzZDl5MG1qYjJsb29oZG05ZzNrdyJ9.znQxXNQe-ze2jFZbgdYcvw"
 
@@ -18,6 +18,14 @@ zoom: 15});
 const [userLocation, setUserLocation] = useState(null);
 const [otherUsers, setOtherUsers]=useState([]);
 const [selectedUser, setSelectedUser] = useState(null);
+const [selfInfo,setSelfInfo]=useState(false);
+
+const [username, setUserName]=useState("Ada")
+const [interests,setInterests]=useState(["coding","being a trendsetter"])
+const [lta,setLta]=useState("How programming was actually a women dominated field and then men joined when it became lucrative.")
+
+const [changeLTA, setChangeLTA] = useState(false);
+const [inputValue, setInputValue] = useState(lta);
 var users = [];
 useEffect(() => {
   console.log("Selected user:", selectedUser);
@@ -70,7 +78,10 @@ useEffect(() => {
           
     >
       {userLocation && <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
-            <img src={bluePin} />
+            <img src={bluePin} alt="User Location" style={{ cursor: "pointer" }} onClick={(e) => {
+              e.stopPropagation();
+              setSelfInfo(true);
+            }} />
           </Marker>}
       <>
       <ul>
@@ -109,6 +120,59 @@ useEffect(() => {
             
           </div>
         </Popup>)}
+
+        {selfInfo && (
+        <Popup
+          
+          longitude={userLocation.longitude}
+          latitude={userLocation.latitude}
+          anchor='top'
+          closeOnClick={true}
+          onClose={() => setSelfInfo(false)} // Close popup on close button
+          offset={25}
+        >
+          <div>
+            <h2>{username}</h2>
+            <h3>Interests:</h3>
+            <p>{interests.join(", ")}</p>
+            <h3>I wanna talk about...</h3>
+            <p>{lta}</p>
+            <FontAwesomeIcon icon={faPen} onClick={(e) => {
+              setChangeLTA(true)
+            }} />
+
+            
+          </div>
+        </Popup>)}
+
+        {changeLTA && (
+        <Popup
+          
+          longitude={viewport.longitude}
+          latitude={viewport.latitude}
+          anchor='top'
+          closeOnClick={true}
+          onClose={() => setChangeLTA(false)} // Close popup on close button
+          offset={25}
+        >
+          <div>
+          <div>
+            <h1>Change your "Let's Talk About...."</h1>
+          <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Type here..."
+              style={{ width: "100%", padding: "5px" }}
+            />
+          </div>
+
+            
+          </div>
+        </Popup>)}
+
+
+
 
       </ReactMapGL>
 
