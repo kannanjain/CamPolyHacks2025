@@ -16,7 +16,11 @@ export default function App() {
 zoom: 15});
 const [userLocation, setUserLocation] = useState(null);
 const [otherUsers, setOtherUsers]=useState([]);
+const [selectedUser, setSelectedUser] = useState(null);
 var users = [];
+useEffect(() => {
+  console.log("Selected user:", selectedUser);
+}, [selectedUser]);
 useEffect(() => {
   // Check if geolocation is available
   if (navigator.geolocation) {
@@ -29,7 +33,7 @@ useEffect(() => {
           ...prevViewport,
           latitude,
           longitude,
-          zoom: 9, // Zoom level to focus on the user's location
+          zoom: 15, // Zoom level to focus on the user's location
         }));
         users= await axios.get("http://127.0.0.1:8000/user/get_users")
         console.log(users.data)
@@ -73,21 +77,34 @@ useEffect(() => {
             latitude={user.location.latitude}
             anchor="bottom"
           >
-            <img src={pin} alt="User Location" />
+            <img src={pin} alt="User Location" style={{ cursor: "pointer" }} onClick={(e) => {
+              e.stopPropagation();
+              setSelectedUser(user)
+            }} />
           </Marker>
         ))}
       </ul>
-      {/* {otherUsers && otherUsers.map((user, index) => (
-        <Marker
-          key={index}
-          longitude={user.location.longitude}
-          latitude={user.location.latitude}
-          anchor="bottom"
-        >
-          <img src={pin} alt="User Location" />
-        </Marker>
-      ))} */}
       </>
+
+      {selectedUser && (
+        <Popup
+          
+          longitude={selectedUser.location.longitude}
+          latitude={selectedUser.location.latitude}
+          anchor='top'
+          closeOnClick={true}
+          onClose={() => setSelectedUser(null)} // Close popup on close button
+          offset={25}
+        >
+          <div>
+            <h3>Interests:</h3>
+            <p>{selectedUser.interests.join(", ")}</p>
+            <h3>I wanna talk about...</h3>
+            <p>{selectedUser.lta}</p>
+           
+            
+          </div>
+        </Popup>)}
 
       </ReactMapGL>
 

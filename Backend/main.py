@@ -41,8 +41,9 @@ def root():
     results = mycol.find(filter_query)
     results_list = []
     for doc in results:
-        results_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location']})
+        results_list.append({'name':doc['name'],'interests':doc['interests'], 'location': doc['location'], 'lta':doc['lta']})
     return results_list
+
 # @app.patch("/user/update_user/{user_id}", response_model=User)
 # async def update_user(user_id: str, user: User = None):
 #     myquery = { "userId": user_id }
