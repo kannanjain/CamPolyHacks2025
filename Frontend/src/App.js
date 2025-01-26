@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
+import Header from './components/header';
+
 console.log(ReactMapGL)
 const uid="6795f5d467e06ca445743c32"
 const token="pk.eyJ1Ijoic3VtZWRoYS1rdW4iLCJhIjoiY202Y3YzZDl5MG1qYjJsb29oZG05ZzNrdyJ9.znQxXNQe-ze2jFZbgdYcvw"
@@ -105,6 +107,7 @@ const handleSearch = async () => {
   return (
     
       <div style={{ width: "100vw", height: "100vh" }}>
+        <Header/>
     <ReactMapGL
     {...viewport}
     mapboxAccessToken={token}
