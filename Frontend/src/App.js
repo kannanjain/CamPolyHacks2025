@@ -27,6 +27,9 @@ const [lta,setLta]=useState("How programming was actually a women dominated fiel
 
 const [changeLTA, setChangeLTA] = useState(false);
 const [inputValue, setInputValue] = useState(lta);
+const [searchTerm, setSearchTerm] = useState(""); // Search input
+const [searchResults, setSearchResults] = useState([]); // Geocoding results
+
 
 const handleChange = () => {
   setVisibility(!visibility);
@@ -71,6 +74,25 @@ useEffect(() => {
   }
 }, []);
 
+const handleSearch = async () => {
+  if (!searchTerm){
+    const users= await axios.get("http://127.0.0.1:8000/user/get_users/"+uid)
+    console.log(users.data)
+    setOtherUsers(users.data)
+    return;
+  }
+  
+
+  const users=await axios.get("http://127.0.0.1:8000/user/interest/"+searchTerm+"?uid="+uid)
+  console.log(users)
+  if (users.data){
+    setOtherUsers(users.data)
+  }
+  // setOtherUsers(users.data)
+  console.log(users.data)
+};
+
+
 
   return (
     
@@ -86,8 +108,11 @@ useEffect(() => {
     
     }} // Handles map movements
           interactiveLayerIds={[''] }//disable
+      
           
     >
+
+      
       {userLocation && <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
             <img src={bluePin} alt="User Location" style={{ cursor: "pointer" }} onClick={(e) => {
               e.stopPropagation();
@@ -111,6 +136,49 @@ useEffect(() => {
         ))}
       </ul>
       </>
+
+      <div
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 10,
+          zIndex: 1000,
+          backgroundColor: "white",
+          padding: "10px",
+          borderRadius: "8px",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+        }}
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+          }}
+          placeholder="Search interest..."
+          style={{
+            width: "200px",
+            padding: "5px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            marginRight: "5px",
+          }}
+        />
+        <button
+          onClick={handleSearch}
+          style={{
+            padding: "5px 10px",
+            backgroundColor: "blue",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Search
+        </button>
+      </div>
+
 
       {selectedUser && (
         <Popup
@@ -163,6 +231,8 @@ useEffect(() => {
                 cursor: "pointer",
               }}
             ></button>
+
+            
 
             
 
