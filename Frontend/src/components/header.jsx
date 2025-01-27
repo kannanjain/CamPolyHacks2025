@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
     return (
         <header style={headerStyle}>
-            <h1 style={titleStyle}>Soul Sync</h1>
+            <h1 style={titleStyle}>SLO Sync</h1>
         </header>
     );
 };
